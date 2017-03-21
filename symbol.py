@@ -52,9 +52,16 @@ def open_location(window, l):
     fname, display_fname, rowcol = l
     row, col = rowcol
 
+    view = window.find_open_file(fname)
+    if view:
+        if view.is_primary():
+            window.focus_view(view)
+        else:
+            view.close() # Preview related to the QuickPanel
+
     window.open_file(
         fname + ":" + str(row) + ":" + str(col),
-        sublime.ENCODED_POSITION | sublime.FORCE_GROUP)
+        sublime.ENCODED_POSITION)
 
 
 def format_location(l):
