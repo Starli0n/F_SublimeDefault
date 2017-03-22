@@ -45,6 +45,11 @@ def symbol_at_point(view, pt):
         symbol = view.substr(view.word(pt))
         locations = lookup_symbol(view.window(), symbol)
 
+    # Remove the current file from the selection
+    row, col = view.rowcol(view.sel()[0].begin())
+    row += 1 # Current row in the current view
+    locations = [l for l in locations if l[0] != view.file_name() and l[0][2][0] != row]
+
     return symbol, locations
 
 
